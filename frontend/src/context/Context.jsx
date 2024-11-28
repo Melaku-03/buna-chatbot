@@ -8,6 +8,7 @@ const ContextProvider = ({ children }) => {
     const [isNewChat, setIsNewChat] = useState(true);  // controls creating new chat or update chat
     const [chats, setChats] = useState([]);  // recent chats
 
+    const [chatToBeUpdateId, setChatToBeUpdateId] = useState("");  // chat's Id to be updated
     const [prompt, setPrompt] = useState("");  // chat title
     const [body, setBody] = useState("");  // chat body
 
@@ -32,7 +33,7 @@ const ContextProvider = ({ children }) => {
     // create new chat handler
     const createNewChat = async (title, body) => {
         try {
-            await axios.post('/new-chat', { title, body })
+            await axios.post('/chat/new-chat', { title, body })
                 .then(res => {
                     console.log(res.data);
                 });
@@ -42,9 +43,9 @@ const ContextProvider = ({ children }) => {
     };
 
     // update chat handler
-    const updateChat = async (id) => {
+    const updateChat = async (id, body) => {
         try {
-            await axios.patch('/update-chat', { id })
+            await axios.patch('/chat/update-chat', { id, body })
                 .then(res => {
                     console.log(res.data);
                 });
@@ -55,13 +56,17 @@ const ContextProvider = ({ children }) => {
     };
 
     // ask gemini to generate content
-    const run = async (e, prompt) => {
+    const run = async (e, prompt, id) => {
         e.preventDefault();
         const title = prompt.trim(); // clear whitespaces;
         try {
             if (title.length) {
                 await model.generateContent(title)
                     .then(res => {
+                        console.log(id);
+                        // create or update chat 
+                        isNewChat ? createNewChat(title, res.response.text()) : updateChat(id, res.response.text());
+
                         setPrompt(title);  // update chat title text
                         setBody(res.response.text())  // update chat body text
                         setPrompt("");  // clear input 
@@ -77,7 +82,7 @@ const ContextProvider = ({ children }) => {
         fetchChats();  // fire fetching chats function
     }, []);
 
-    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, chats, run, prompt, promptChangeHandler, body, setBody }
+    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, chats, run, prompt, promptChangeHandler, body, setBody, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}

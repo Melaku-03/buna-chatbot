@@ -1,16 +1,18 @@
 import React, { useContext } from 'react'
 import { Context } from '../context/Context'
 import axios from '../config/axios';
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
-  const { isSidebarOpen, chats, toggleSidebar, setBody } = useContext(Context);
+  const { isSidebarOpen, chats, toggleSidebar, setBody, setIsNewChat, setChatToBeUpdateId } = useContext(Context);
 
   const fetchChat = async (id) => {
     try {
       await axios.post('/chat/chat', { id })
         .then(res => {
-          console.log(res.data.message);
+          setIsNewChat(false);  // change to update
           setBody(res.data.message.body); // update chat body text
+          setChatToBeUpdateId(res.data.message._id);  // update chat's Id to be updated
           toggleSidebar(); // close sidebar
         })
     } catch (error) {
@@ -25,8 +27,8 @@ export default function Sidebar() {
       <div className='mt-10 flex flex-col gap-3 h-[100%] overflow-y-scroll'>
         {
           chats?.length > 0 ?
-            chats.map(chat => (
-              <p onClick={() => fetchChat(chat._id)} key={chat._id} className='px-4 p-2 cursor-pointer hover:bg-secondary-color hover:bg-opacity-10'>{chat.title}</p>
+            chats?.map(chat => (
+              <Link to={chat._id} onClick={() => fetchChat(chat._id)} key={chat._id} className='px-4 p-2 cursor-pointer hover:bg-secondary-color hover:bg-opacity-10'>{chat.title}</Link>
             ))
             : <div className='px-4'>No recent chat yet.</div>
         }
