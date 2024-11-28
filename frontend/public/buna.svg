@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#2B2623" stroke="#ffffff" stroke-width="2" />
+
+  <!-- Coffee Cup -->
+  <ellipse cx="100" cy="125" rx="40" ry="25" fill="#FFF" />
+  <ellipse cx="100" cy="110" rx="40" ry="10" fill="#2B2623" />
+  <rect x="60" y="110" width="80" height="30" rx="15" ry="15" fill="#FFF" stroke="#2B2623" stroke-width="2" />
+  
+  <!-- Cup Handle -->
+  <path d="M140,115 Q160,130 140,145" fill="none" stroke="#FFF" stroke-width="5" />
+  
+  <!-- Steam -->
+  <path d="M85,65 C85,45 115,45 115,65 S85,85 85,65 Z" fill="none" stroke="#FFF" stroke-width="4" />
+  <path d="M95,50 C95,30 125,30 125,50 S95,70 95,50 Z" fill="none" stroke="#FFF" stroke-width="3" />
+
+  <!-- Chat Bubble -->
+  <path d="M55,40 Q100,5 145,40 Q175,70 145,105 H95 L70,115 L75,95 Q50,70 55,40 Z" fill="#FFF" stroke="#2B2623" stroke-width="3" />
+
+  <!-- Face inside Chat Bubble -->
+  <circle cx="90" cy="55" r="5" fill="#2B2623" />
+  <circle cx="110" cy="55" r="5" fill="#2B2623" />
+  <path d="M90,70 Q100,80 110,70" stroke="#2B2623" stroke-width="2" fill="none" />
+
+  <!-- Ethiopian Coffee Ceremony Motif with Ethiopian Flag Colors -->
+  <path d="M60,180 L140,180 L130,170 L70,170 Z" fill="#278E4A" /> <!-- Green -->
+  <path d="M75,170 L125,170 L120,165 L80,165 Z" fill="#F3C02A" /> <!-- Yellow -->
+  <path d="M80,165 L120,165 L115,160 L85,160 Z" fill="#D91033" /> <!-- Red -->
+
+  <!-- Coffee Beans -->
+  <ellipse cx="75" cy="140" rx="8" ry="5" fill="#2B2623" />
+  <ellipse cx="125" cy="140" rx="8" ry="5" fill="#2B2623" />
+  <path d="M73,136 Q75,140 73,144" stroke="#FFF" stroke-width="1" fill="none" />
+  <path d="M123,136 Q125,140 123,144" stroke="#FFF" stroke-width="1" fill="none" />
+
+  <!-- Cultural Details -->
+  <circle cx="100" cy="140" r="6" fill="#D68A2E" />
+  <path d="M100,134 L100,146 M94,140 L106,140" stroke="#2B2623" stroke-width="2" />
+
+  <!-- Brand Text -->
+  <text x="50%" y="185" fill="#ffffff" font-family="'Noto Sans Ethiopic', sans-serif" font-size="18" font-weight="bold" text-anchor="middle">
+    ቡና Bot
+  </text>
+</svg>
