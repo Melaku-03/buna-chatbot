@@ -70,7 +70,7 @@ export const updateChat = asyncHandler(async (req, res) => {
     const chat = await chatModel.findOne({ $and: [{ userId: value.userId }, { _id: value.id }] }).lean().exec();
     if (!chat) return res.status(404).json({ message: 'No chat' });
 
-    const result = await chatModel.updateOne({ $and: [{ userId: value.userId }, { _id: value.id }] }, { body: `${chat.body} \n${value.body}` })
+    const result = await chatModel.updateOne({ $and: [{ userId: value.userId }, { _id: value.id }] }, { body: `${chat.body} * ${value.body}` })
 
     res.json({ message: result.modifiedCount });
 });
