@@ -70,6 +70,7 @@ const ContextProvider = ({ children }) => {
                         setPrompt(title);  // update chat title text
                         setBody(res.response.text())  // update chat body text
                         setPrompt("");  // clear input 
+                        setIsNewChat(false);
                     });
             }
 
@@ -78,11 +79,7 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        fetchChats();  // fire fetching chats function
-    }, []);
-
-    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, chats, run, prompt, promptChangeHandler, body, setBody, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
+    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}
