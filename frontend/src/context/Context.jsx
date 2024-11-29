@@ -90,7 +90,6 @@ const ContextProvider = ({ children }) => {
                         // create or update chat 
                         isNewChat ? createNewChat(title, res.response.text()) : updateChat(id, res.response.text());
                         setBody(res.response.text())  // update chat body text
-                        setDisplayText("");
                         FormatText(res.response.text());  // pass body text gemini's generated content
                         setPrompt("");  // clear input 
                         setIsNewChat(false);
