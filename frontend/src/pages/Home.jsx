@@ -2,8 +2,17 @@ import React, { useContext } from 'react'
 import { Context } from '../context/Context'
 
 export default function Home() {
-  const { body } = useContext(Context)
+  const { displayText, body } = useContext(Context)
   return (
-    <div>{body}</div>
+    <>
+      {
+        displayText ?
+          <div dangerouslySetInnerHTML={{ __html: displayText }}></div>
+          :
+          <div>
+            <p>Welcome page!</p>
+          </div>
+      }
+    </>
   )
 }

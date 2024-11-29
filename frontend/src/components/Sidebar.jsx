@@ -13,7 +13,7 @@ export default function Sidebar() {
         {
           chats.length > 0 ?
             chats?.map(chat => (
-              <Link to={chat._id} onClick={toggleSidebar} key={chat._id} className='px-4 p-2 cursor-pointer hover:bg-secondary-color hover:bg-opacity-10'>{chat.title}</Link>
+              <Link to={chat._id} onClick={ toggleSidebar} key={chat._id} className='px-4 p-2 cursor-pointer hover:bg-secondary-color hover:bg-opacity-10'>{chat.title}</Link>
             ))
             : <div className='px-4'>No recent chat yet.</div>
         }

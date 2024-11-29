@@ -6,7 +6,7 @@ import axios from '../config/axios';
 
 export default function Chat() {
   const { id } = useParams();
-  const { body, setBody, setIsNewChat, setChatToBeUpdateId } = useContext(Context);
+  const { body, setBody, setIsNewChat, setChatToBeUpdateId, displayText, FormatText, setDisplayText } = useContext(Context);
 
 
   const fetchChat = async (id) => {
@@ -15,6 +15,8 @@ export default function Chat() {
         .then(res => {
           setIsNewChat(false);  // change to update
           setBody(res.data.message.body); // update chat body text
+          setDisplayText("");
+          FormatText(res.data.message.body) // pass body text serves's  content
           setChatToBeUpdateId(res.data.message._id);  // update chat's Id to be updated
         })
     } catch (error) {
@@ -26,6 +28,6 @@ export default function Chat() {
   }, [id, body]);
 
   return (
-    <div>{body}</div>
+    <div dangerouslySetInnerHTML={{ __html: displayText }}></div>
   )
 }

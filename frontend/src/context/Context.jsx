@@ -11,6 +11,7 @@ const ContextProvider = ({ children }) => {
     const [chatToBeUpdateId, setChatToBeUpdateId] = useState("");  // chat's Id to be updated
     const [prompt, setPrompt] = useState("");  // chat title
     const [body, setBody] = useState("");  // chat body
+    let [displayText, setDisplayText] = useState("");
 
     // toggle sidebar handler for small screen size
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -55,6 +56,28 @@ const ContextProvider = ({ children }) => {
         }
     };
 
+
+    // text Animation and format
+    const textTypingSpeed = (idx, nextWord) => {
+        setTimeout(function () {
+            setDisplayText(prev => prev + nextWord);
+        }, 1 * idx)
+    }
+
+    const FormatText = (bodyText) => {
+        const boldText = bodyText.split("**");
+        let formattedText = "";
+        for (let i = 0; i < boldText.length; i++) {
+            if (i === 0 || i % 2 !== 1) formattedText += boldText[i];
+            else formattedText += `<b>${boldText[i]} </b>`
+        }
+        formattedText = formattedText.split('*').join('<br/>');
+        const textTypeDelay = formattedText.split(" ");
+        for (let i = 0; i < textTypeDelay.length; i++) {
+            textTypingSpeed(i, textTypeDelay[i] + " ");
+        }
+
+    }
     // ask gemini to generate content
     const run = async (e, prompt, id) => {
         e.preventDefault();
@@ -63,12 +86,12 @@ const ContextProvider = ({ children }) => {
             if (title.length) {
                 await model.generateContent(title)
                     .then(res => {
-                        console.log(id);
+                        console.log(res.response.text());
                         // create or update chat 
                         isNewChat ? createNewChat(title, res.response.text()) : updateChat(id, res.response.text());
-
-                        setPrompt(title);  // update chat title text
                         setBody(res.response.text())  // update chat body text
+                        setDisplayText("");
+                        FormatText(res.response.text());  // pass body text gemini's generated content
                         setPrompt("");  // clear input 
                         setIsNewChat(false);
                     });
@@ -79,7 +102,7 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
+    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}
