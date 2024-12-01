@@ -53,7 +53,7 @@ export const newChat = asyncHandler(async (req, res) => {
     const result = await chatModel.create(value);
     await result.save();
 
-    res.json({ message: `${result.title} created in chat history` });
+    res.json({ message: result._id });
 });
 
 // update chat with ID

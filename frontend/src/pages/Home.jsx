@@ -7,7 +7,7 @@ export default function Home() {
     <>
       {
         displayText ?
-          <div dangerouslySetInnerHTML={{ __html: displayText }}></div>
+          <div></div>
           :
           <div>
             <p>Welcome page!</p>

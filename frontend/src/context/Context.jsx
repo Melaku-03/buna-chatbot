@@ -1,9 +1,13 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "../config/axios";
 import model from "../config/gemini_api";
+import { replace, useNavigate } from "react-router-dom";
 
 export const Context = createContext();
 const ContextProvider = ({ children }) => {
+    const history = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const [textLoading, setTextLoading] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // controls sidebar for small screen size
     const [isNewChat, setIsNewChat] = useState(true);  // controls creating new chat or update chat
     const [chats, setChats] = useState([]);  // recent chats
@@ -28,6 +32,8 @@ const ContextProvider = ({ children }) => {
                 });
         } catch (error) {
             console.log(error?.response?.data?.message || error.message);  // if any error in fetching chats from server
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -36,7 +42,7 @@ const ContextProvider = ({ children }) => {
         try {
             await axios.post('/chat/new-chat', { title, body })
                 .then(res => {
-                    console.log(res.data);
+                    history(`${res.data.message}`, replace);
                 });
         } catch (error) {
             console.log(error?.response?.data?.message || error.message);
@@ -61,6 +67,7 @@ const ContextProvider = ({ children }) => {
     const textTypingSpeed = (idx, nextWord) => {
         setTimeout(function () {
             setDisplayText(prev => prev + nextWord);
+            setTextLoading(false);
         }, 1 * idx)
     }
 
@@ -86,7 +93,6 @@ const ContextProvider = ({ children }) => {
             if (title.length) {
                 await model.generateContent(title)
                     .then(res => {
-                        console.log(res.response.text());
                         // create or update chat 
                         isNewChat ? createNewChat(title, res.response.text()) : updateChat(id, res.response.text());
                         setBody(res.response.text())  // update chat body text
@@ -98,10 +104,12 @@ const ContextProvider = ({ children }) => {
 
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setLoading(false);
         }
     }
 
-    const value = { isSidebarOpen, toggleSidebar, setIsSidebarOpen, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
+    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}

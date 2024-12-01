@@ -7,5 +7,5 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  @apply bg-secondary-color;
+  @apply bg-secondary-color cursor-pointer;
 }

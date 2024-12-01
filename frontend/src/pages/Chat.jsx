@@ -2,11 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import { Context } from '../context/Context'
 import axios from '../config/axios';
+import Loading from '../components/Loading';
 
 
 export default function Chat() {
   const { id } = useParams();
-  const { body, setBody, setIsNewChat, setChatToBeUpdateId, displayText, FormatText, setDisplayText } = useContext(Context);
+  const { textLoading, body, setBody, setIsNewChat, setChatToBeUpdateId, displayText, FormatText, setDisplayText } = useContext(Context);
 
 
   const fetchChat = async (id) => {
@@ -28,6 +29,13 @@ export default function Chat() {
   }, [id, body]);
 
   return (
-    <div dangerouslySetInnerHTML={{ __html: displayText }}></div>
+    <>
+      {
+        textLoading ?
+          <Loading/>
+          :
+          <div className='md:leading-7' dangerouslySetInnerHTML={{ __html: displayText }}></div>
+      }
+    </>
   )
 }
