@@ -123,8 +123,8 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     console.log(isLoggedIn);
-    
-    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen, isLoggedIn, checkAuth, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
+
+    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen, isLoggedIn, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}

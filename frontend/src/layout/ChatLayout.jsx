@@ -8,13 +8,12 @@ import Navbar from '../components/Navbar'
 import { Navigate } from 'react-router-dom'
 
 export default function ChatLayout() {
-    const { setIsSidebarOpen,isLoggedIn,  checkAuth, fetchChats, body, chats } = useContext(Context);
+    const { setIsSidebarOpen, isLoggedIn, fetchChats, body, } = useContext(Context);
 
     useEffect(() => {
-        checkAuth();
         fetchChats();
     }, [body]);
-    
+
     return (
         <>
             {
