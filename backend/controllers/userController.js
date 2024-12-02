@@ -52,7 +52,7 @@ export const login = asyncHandler(async (req, res) => {
     // res.clearCookie(String(user._id), { path: '/' });
 
     // create new cookie
-    res.cookie(String(user._id), token, { path: '/', expires: new Date(Date.now() + 1000 * 60 * 15), httpOnly: true, sameSite: true })
+    res.cookie(String(user._id), token, { path: '/', expires: new Date(Date.now() + 1000 * 60 * 15), httpOnly: true, sameSite: 'None' })
 
     res.json({ message: `${user.username} logged in successfully` })
 });
