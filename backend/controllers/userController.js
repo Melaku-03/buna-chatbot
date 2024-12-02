@@ -49,7 +49,7 @@ export const login = asyncHandler(async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '15m' })
 
     // clear cookie if exist
-    res.clearCookie(String(user._id), { path: '/' });
+    // res.clearCookie(String(user._id), { path: '/' });
 
     // create new cookie
     res.cookie(String(user._id), token, { path: '/', expires: new Date(Date.now() + 1000 * 60 * 15), httpOnly: true, sameSite: true })
