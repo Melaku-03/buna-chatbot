@@ -6,6 +6,7 @@ import { replace, useNavigate } from "react-router-dom";
 export const Context = createContext();
 const ContextProvider = ({ children }) => {
     const history = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [loading, setLoading] = useState(true);
     const [textLoading, setTextLoading] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // controls sidebar for small screen size
@@ -23,6 +24,14 @@ const ContextProvider = ({ children }) => {
     // update prompt (title) while user typing
     const promptChangeHandler = (e) => setPrompt(e.target.value);
 
+    const checkAuth = async () => {
+        try {
+            await axios.get('/user/auth/validate')
+            .then(res => setIsLoggedIn(res.data))
+        } catch (error) {
+            setIsLoggedIn(false);
+        }
+    }
     // get all recently chats
     const fetchChats = async () => {
         try {
@@ -109,7 +118,11 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
+    useEffect(() => {
+        checkAuth();
+    }, []);
+    
+    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen,isLoggedIn,  checkAuth, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}

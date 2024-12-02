@@ -8,15 +8,17 @@ import Navbar from '../components/Navbar'
 import { Navigate } from 'react-router-dom'
 
 export default function ChatLayout() {
-    const { setIsSidebarOpen, fetchChats, body, chats } = useContext(Context);
+    const { setIsSidebarOpen,isLoggedIn,  checkAuth, fetchChats, body, chats } = useContext(Context);
 
     useEffect(() => {
+        checkAuth();
         fetchChats();
     }, [body]);
+    
     return (
         <>
             {
-                chats ?
+                isLoggedIn ?
                     <div className='h-screen bg-primary-color text-white overflow-hidden'>
                         <Navbar />
                         <div className='relative h-full flex'>
