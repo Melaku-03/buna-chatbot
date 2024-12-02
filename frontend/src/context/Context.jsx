@@ -27,7 +27,7 @@ const ContextProvider = ({ children }) => {
     const checkAuth = async () => {
         try {
             await axios.get('/user/auth/validate')
-            .then(res => setIsLoggedIn(res.data))
+                .then(res => setIsLoggedIn(res.data))
         } catch (error) {
             setIsLoggedIn(false);
         }
@@ -41,7 +41,7 @@ const ContextProvider = ({ children }) => {
                 });
         } catch (error) {
             console.log(error?.response?.data?.message || error.message);  // if any error in fetching chats from server
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
@@ -121,8 +121,10 @@ const ContextProvider = ({ children }) => {
     useEffect(() => {
         checkAuth();
     }, []);
+
+    console.log(isLoggedIn);
     
-    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen,isLoggedIn,  checkAuth, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
+    const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen, isLoggedIn, checkAuth, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
         <Context.Provider value={value}>
             {children}
