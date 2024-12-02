@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 // verifyToken / authentication
 export const verifyToken = asyncHandler(async (req, res, next) => {
     const cookies = req.headers.cookie;
-    if (!cookies) return res.status(403).json({ message: "Invalid credential" });
+    if (!cookies) return res.status(403).json({ message: `Invalid credential ${cookies}` });
     const token = cookies.split("=")[1];
     
     jwt.verify(String(token), process.env.JWT_SECRET_KEY, (error, user) => {
