@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // middlewares
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "https://buna-chat.vercel.app" }));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
