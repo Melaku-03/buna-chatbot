@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { replace, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import { Navigate, replace, useNavigate } from "react-router-dom";
 import { AnimatePresence } from 'framer-motion';
 import axios from '../config/axios';
 import Form from '../components/Form';
+import { Context } from '../context/Context';
 
 export default function Login() {
+    const { isLoggedIn } = useContext(Context);
+
     const [isLogin, setIsLogin] = useState(true);
     const [user, setUser] = useState({ username: "", password: "" });
     const history = useNavigate();
@@ -42,19 +45,25 @@ export default function Login() {
     };
 
     return (
-        <div className='h-screen bg-primary-color text-white flex items-center justify-center'>
-            <div className='min-w-[90%] md:min-w-[50%] min-h-[50vh] overflow-x-hidden bg-white p-5 rounded bg-opacity-15 flex items-center justify-center'>
-                <form onSubmit={submitHandler} className='flex-1'>
-                    <AnimatePresence mode='wait' custom={isLogin ? 1 : -1}>
-                        {
-                            isLogin ?
-                                <Form keys={"login"} user={user} onchange={onchange} toggleForm={toggleForm} headerText={'Login'} subHeaderText={"Don't have an account?"} link={"Create a new account"} />
-                                :
-                                <Form keys={"sign-up"} user={user} onchange={onchange} toggleForm={toggleForm} headerText={"Join us"} subHeaderText={"Already have an account?"} link={"Sign in"} />
-                        }
-                    </AnimatePresence>
-                </form>
-            </div>
-        </div>
+        <>
+            {
+                // isLoggedIn ? <Navigate to="/" />
+                //     :
+                <div className='h-screen bg-primary-color text-white flex items-center justify-center'>
+                    <div className='min-w-[90%] md:min-w-[50%] min-h-[50vh] overflow-x-hidden bg-white p-5 rounded bg-opacity-15 flex items-center justify-center'>
+                        <form onSubmit={submitHandler} className='flex-1'>
+                            <AnimatePresence mode='wait' custom={isLogin ? 1 : -1}>
+                                {
+                                    isLogin ?
+                                        <Form keys={"login"} user={user} onchange={onchange} toggleForm={toggleForm} headerText={'Login'} subHeaderText={"Don't have an account?"} link={"Create a new account"} />
+                                        :
+                                        <Form keys={"sign-up"} user={user} onchange={onchange} toggleForm={toggleForm} headerText={"Join us"} subHeaderText={"Already have an account?"} link={"Sign in"} />
+                                }
+                            </AnimatePresence>
+                        </form>
+                    </div>
+                </div>
+            }
+        </>
     )
 }

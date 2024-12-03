@@ -46,13 +46,16 @@ export const login = asyncHandler(async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
 
     // create token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '15m' })
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' })
 
     // clear cookie if exist
-    // res.clearCookie(String(user._id), { path: '/' });
+    const cookies = Object.keys(req.cookies);
+    for (let cookie of cookies) {
+        res.clearCookie(String(cookie));
+    }
 
     // create new cookie
-    res.cookie(String(user._id), token, { path: '/', expires: new Date(Date.now() + 1000 * 60 * 15), httpOnly: true, sameSite: 'None' })
+    res.cookie(String(user._id), token, { path: '/', expires: new Date(Date.now() + 1000 * 60 * 60), httpOnly: true, sameSite: 'lax' })
 
     res.json({ message: `${user.username} logged in successfully` })
 });

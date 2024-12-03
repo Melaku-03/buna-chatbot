@@ -122,7 +122,6 @@ const ContextProvider = ({ children }) => {
         checkAuth();
     }, []);
 
-    console.log(isLoggedIn);
 
     const value = { loading, textLoading, isSidebarOpen, toggleSidebar, setIsSidebarOpen, isLoggedIn, fetchChats, chats, run, prompt, promptChangeHandler, body, setBody, displayText, setDisplayText, FormatText, setIsNewChat, chatToBeUpdateId, setChatToBeUpdateId }
     return (
